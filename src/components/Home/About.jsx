@@ -85,7 +85,7 @@ const About = () => {
           variants={imageVariants}
         >
           <motion.img
-            src="/aboutImg.png"
+            src="/gallary3.jpeg"
             alt="About Al-Haj"
             className="absolute right-[-150px] top-0 w-full h-full object-cover rounded-[24px]"
             whileHover={{ scale: 1.03 }}

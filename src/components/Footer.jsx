@@ -47,9 +47,9 @@ const Footer = () => {
             Alworood Dates Company, Ltd
           </h3>
           <p className="text-sm text-[#D3B159]">
-            Ramallah, Palestinian Territory, Alirsal Street
+            1943 N 6th St, Philadelphia, PA 19122, United States
             <br />
-            18 Buliding, 1th Floor, Tel: +972 2 2986875
+            Tel: +1 (215) 416-0563
           </p>
         </motion.div>
 
@@ -64,9 +64,9 @@ const Footer = () => {
             شركــة تمور الورود
           </h3>
           <p className="text-[#D3B159]">
-            رام الله، الأراضي الفلسطينية، شارع الإرسال
+            ١٩٤٣ شارع السادس الشمالي، فيلادلفيا، بنسلفانيا ١٩١٢٢، الولايات المتحدة الأمريكية
             <br />
-            مبنى 18، الطابق الأول، هاتــف: +972 2 2986875
+            هاتــف: +1 (215) 416-0563
           </p>
         </motion.div>
       </div>

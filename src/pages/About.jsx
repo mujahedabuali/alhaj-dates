@@ -254,7 +254,7 @@ const About = () => {
               whileHover={{ scale: 1.02 }}
             >
               <img
-                src="/tmrImg.png"
+                src="/tmrImg1.png"
                 alt="Date processing"
                 className="w-full h-auto object-cover"
               />

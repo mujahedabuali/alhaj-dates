@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
+import Gallery from "./pages/Gallery.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/about" element={<About />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />

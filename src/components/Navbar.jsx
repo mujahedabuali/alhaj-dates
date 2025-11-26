@@ -17,6 +17,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
+    { name: "Gallery", path: "/gallery" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -34,7 +35,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 md:h-20">
           <Link to="/" className="flex items-center group">
             <motion.h1
-              className="text-2xl font-bold text-[#2C2C2C] group-hover:text-white transition-colors duration-500"
+              className="text-2xl font-bold text-white transition-colors duration-500"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -62,8 +63,8 @@ const Navbar = () => {
                   to={link.path}
                   className={`relative px-3 py-2 text-sm md:text-base font-medium ${
                     location.pathname === link.path
-                      ? "text-[#999999] font-semibold"
-                      : "text-[#c5c5c5] hover:text-[#999999]"
+                      ? "text-[#666666] font-semibold"
+                      : "text-[#666666] hover:text-[#666666]"
                   } transition-colors duration-300 group`}
                 >
                   {link.name}

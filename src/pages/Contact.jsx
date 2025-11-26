@@ -20,21 +20,16 @@ const Contact = () => {
       title: "العنوان / Address",
       content: (
         <>
-          <p dir="rtl" className="mb-1">
-            رام الله، الأراضي الفلسطينية، شارع الإرسال
-          </p>
-          <p dir="rtl">مبنى 18، الطابق الأول</p>
           <p className="mt-2">
-            Ramallah, Palestinian Territories, Al-Irsal Street
+            1900 N 5th St, Philadelphia, PA 19122, United States
           </p>
-          <p>Building 18, 1st Floor</p>
         </>
       ),
     },
     {
       icon: <FaPhone className="text-3xl text-[#A17D23]" />,
       title: "هاتف / Phone",
-      content: "+972 2 2986875",
+      content: "+1 (215) 416-0563",
     },
     {
       icon: <FaClock className="text-3xl text-[#A17D23]" />,
@@ -133,15 +128,17 @@ const Contact = () => {
               <div className="flex justify-center items-center">
                 <FaMapMarkerAlt className="mt-1 mr-3 flex-shrink-0" />
                 <div className="text-center">
-                  <p dir="rtl">رام الله، الأراضي الفلسطينية، شارع الإرسال</p>
-                  <p dir="rtl">مبنى 18، الطابق الأول</p>
-                  <p className="mt-2">Ramallah, Palestinian Territories</p>
-                  <p>Al-Irsal Street, Building 18, 1st Floor</p>
+                  <p dir="rtl">
+                    1900 N 5th St, Philadelphia, PA 19122, United States
+                  </p>
+                  <p className="mt-2">
+                    1900 N 5th St, Philadelphia, PA 19122, United States
+                  </p>
                 </div>
               </div>
               <div className="flex items-center justify-center">
                 <FaPhone className="mr-3 flex-shrink-0 " />
-                <span className="">+972 2 2986875</span>
+                <span className="">+1 (215) 416-0563</span>
               </div>
             </div>
           </div>
@@ -203,7 +200,7 @@ const Contact = () => {
           </h3>
         </div>
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3388.104722284006!2d35.2007223155992!3d31.8965639812467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDUzJzQ3LjYiTiAzNcKwMTInMDguOSJF!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s"
+          src="https://www.google.com/maps?q=1900+N+5th+St,+Philadelphia,+PA+19122,+United+States&output=embed"
           width="100%"
           height="450"
           style={{ border: 0 }}

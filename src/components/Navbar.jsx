@@ -48,8 +48,10 @@ const Navbar = () => {
         <LocaleLink to="/" className="brand-lockup" aria-label={t.brand}>
           <img src="/al-haj.png" alt="" />
           <div className="brand-lockup-text">
-            <p className="brand-lockup-title">{t.brand}</p>
-            <p className="brand-lockup-sub">{t.brandArShort}</p>
+            <p className="brand-lockup-title">Al-Haj Dates</p>
+            <p className="brand-lockup-sub" dir="rtl" lang="ar">
+              تمور الحاج
+            </p>
           </div>
         </LocaleLink>
 

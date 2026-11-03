@@ -1,8 +1,8 @@
 export const translations = {
   en: {
     brand: "Al-Haj Dates",
-    brandArShort: "تمور الحج",
-    companyName: "Alworood Dates Company, Ltd",
+    brandArShort: "تمور الحاج",
+    companyName: "Al-Haj Dates Company, Ltd",
     nav: {
       home: "Home",
       about: "About",
@@ -26,7 +26,7 @@ export const translations = {
     story: {
       eyebrow: "Our story",
       title: "Grown in Jericho. Shared with the world.",
-      p1: "Tamour Al-Woroud is a Palestinian company specializing in the cultivation and production of premium dates. From the historic city of Jericho — one of the oldest inhabited places on earth — our farms draw on fertile soil and a unique climate to grow exceptional fruit.",
+      p1: "Al-Haj Dates is a Palestinian company specializing in the cultivation and production of premium dates. From the historic city of Jericho — one of the oldest inhabited places on earth — our farms draw on fertile soil and a unique climate to grow exceptional fruit.",
       p2: "Our signature brand, Al-Haj Dates, stands for purity, heritage, and hospitality. Each harvest is carefully selected, processed, and packed to the highest standards of hygiene and quality.",
       badgeTitle: "Al-Haj",
       badgeText: "A symbol of blessing and welcome",
@@ -58,17 +58,17 @@ export const translations = {
     about: {
       seoTitle: "About",
       seoDescription:
-        "Learn about Alworood Dates and the Al-Haj brand — Palestinian dates cultivated in Jericho with heritage, purity, and care.",
+        "Learn about Al-Haj Dates — Palestinian dates cultivated in Jericho with heritage, purity, and care.",
       eyebrow: "About",
-      heroTitle: "Alworood Dates",
+      heroTitle: "Al-Haj Dates",
       heroSubtitle:
         "Where heritage meets careful craft — from Jericho’s palms to your table.",
       heritageTitle: "Our heritage",
       heritageP1:
-        "Alworood Dates is a leading Palestinian company specializing in date cultivation and production, based in Jericho — the oldest city in the world.",
+        "Al-Haj Dates is a leading Palestinian company specializing in date cultivation and production, based in Jericho — the oldest city in the world.",
       heritageP2:
         "With deep-rooted expertise and meticulous care for each palm tree, we proudly produce our premium dates under the Al-Haj Dates brand — representing quality, blessing, and the spirit of the Holy Land.",
-      heritageImageAlt: "Alworood date farms in Jericho",
+      heritageImageAlt: "Al-Haj date farms in Jericho",
       processImageAlt: "Al-Haj dates packing and quality",
       valuesTitle: "Our core values",
       values: [
@@ -92,7 +92,7 @@ export const translations = {
     gallery: {
       seoTitle: "Gallery",
       seoDescription:
-        "Photos and videos of Al-Haj Dates — Jericho farms, harvest, and premium packaging from Alworood Dates.",
+        "Photos and videos of Al-Haj Dates — Jericho farms, harvest, and premium packaging.",
       eyebrow: "Gallery",
       title: "From grove to gift",
       subtitle:
@@ -110,7 +110,7 @@ export const translations = {
     contact: {
       seoTitle: "Contact",
       seoDescription:
-        "Contact Alworood Dates / Al-Haj Dates in Philadelphia — phone, email, hours, and map for wholesale and retail inquiries.",
+        "Contact Al-Haj Dates in Philadelphia — phone, email, hours, and map for wholesale and retail inquiries.",
       eyebrow: "Contact",
       title: "Let’s talk dates",
       subtitle:
@@ -128,7 +128,7 @@ export const translations = {
       fillAll: "Please fill in all fields.",
       openingMail: "Opening your email app…",
       findUs: "Find us",
-      mapTitle: "Al-Haj Dates / Alworood Dates location in Philadelphia",
+      mapTitle: "Al-Haj Dates location in Philadelphia",
     },
     footer: {
       blurb:
@@ -141,13 +141,13 @@ export const translations = {
     seo: {
       homeTitle: "Al-Haj Dates | Premium Dates from Jericho",
       homeDescription:
-        "Al-Haj Dates by Alworood Dates — premium Palestinian dates cultivated in Jericho. Heritage quality for homes and hospitality worldwide.",
+        "Al-Haj Dates — premium Palestinian dates cultivated in Jericho. Heritage quality for homes and hospitality worldwide.",
     },
   },
   ar: {
-    brand: "تمور الحج",
+    brand: "تمور الحاج",
     brandArShort: "Al-Haj Dates",
-    companyName: "شركة تمور الورود",
+    companyName: "شركة تمور الحاج",
     nav: {
       home: "الرئيسية",
       about: "من نحن",
@@ -161,7 +161,7 @@ export const translations = {
     langSwitch: "English",
     langSwitchLabel: "التبديل إلى الإنجليزية",
     hero: {
-      eyebrow: "تمور الحج",
+      eyebrow: "تمور الحاج",
       title: "تمور فاخرة من أريحا",
       subtitle:
         "تراث فلسطيني في كل قضمة — نقاء وكرم وحرفة من بساتين أريحا.",
@@ -170,15 +170,15 @@ export const translations = {
     },
     story: {
       eyebrow: "من نحن",
-      title: "تمور الحج… رمز الجودة والبركة",
-      p1: "تمور الورود شركة فلسطينية رائدة في زراعة وإنتاج التمور، تتخذ من مدينة أريحا — أقدم مدن العالم — موطناً لمزارعها الخصبة. بخبرة متجذّرة في الأرض وعناية دقيقة بكل نخلة، ننتج بكل فخر علامتنا الخاصة «تمور الحج».",
+      title: "تمور الحاج… رمز الجودة والبركة",
+      p1: "تمور الحاج شركة فلسطينية رائدة في زراعة وإنتاج التمور، تتخذ من مدينة أريحا — أقدم مدن العالم — موطناً لمزارعها الخصبة. بخبرة متجذّرة في الأرض وعناية دقيقة بكل نخلة، ننتج بكل فخر علامتنا الخاصة «تمور الحاج».",
       p2: "نؤمن بأن التمر إرث وهوية وكرم. لذلك نحرص على أجود أساليب الزراعة والقطاف والتجفيف والتغليف وفق أعلى معايير الجودة والنظافة.",
-      badgeTitle: "تمور الحج",
+      badgeTitle: "تمور الحاج",
       badgeText: "رمز البركة والضيافة",
-      imageAlt: "تمور الحج جاهزة للتعبئة",
+      imageAlt: "تمور الحاج جاهزة للتعبئة",
     },
     highlights: {
-      eyebrow: "لماذا تمور الحج",
+      eyebrow: "لماذا تمور الحاج",
       title: "جودة متجذّرة في المكان والممارسة",
       items: [
         {
@@ -198,23 +198,23 @@ export const translations = {
     cta: {
       title: "جودة تعانق التراث",
       subtitle:
-        "اكتشف تمور الحج — للاستفسار عن الجملة أو الضيافة أو التجزئة.",
+        "اكتشف تمور الحاج — للاستفسار عن الجملة أو الضيافة أو التجزئة.",
       button: "تواصل معنا",
     },
     about: {
       seoTitle: "من نحن",
       seoDescription:
-        "تعرّف على شركة تمور الورود وعلامة تمور الحج — تمور فلسطينية من أريحا بالجودة والأصالة.",
+        "تعرّف على شركة تمور الحاج — تمور فلسطينية من أريحا بالجودة والأصالة.",
       eyebrow: "من نحن",
-      heroTitle: "تمور الورود",
+      heroTitle: "تمور الحاج",
       heroSubtitle: "حيث يلتقي التراث بالحرفة — من نخيل أريحا إلى مائدتكم.",
       heritageTitle: "تراثنا",
       heritageP1:
-        "تمور الورود شركة فلسطينية رائدة في زراعة وإنتاج التمور، تتخذ من مدينة أريحا — أقدم مدن العالم — موطناً لمزارعها الخصبة.",
+        "تمور الحاج شركة فلسطينية رائدة في زراعة وإنتاج التمور، تتخذ من مدينة أريحا — أقدم مدن العالم — موطناً لمزارعها الخصبة.",
       heritageP2:
-        "بخبرة متجذّرة وعناية دقيقة بكل نخلة، ننتج علامتنا الخاصة «تمور الحج» رمزاً للجودة والبركة وروح الأرض المقدسة.",
-      heritageImageAlt: "مزارع تمور الورود في أريحا",
-      processImageAlt: "تعبئة وتمور الحج",
+        "بخبرة متجذّرة وعناية دقيقة بكل نخلة، ننتج علامتنا الخاصة «تمور الحاج» رمزاً للجودة والبركة وروح الأرض المقدسة.",
+      heritageImageAlt: "مزارع تمور الحاج في أريحا",
+      processImageAlt: "تعبئة وتمور الحاج",
       valuesTitle: "قيمنا الأساسية",
       values: [
         {
@@ -237,11 +237,11 @@ export const translations = {
     gallery: {
       seoTitle: "المعرض",
       seoDescription:
-        "صور وفيديوهات تمور الحج — مزارع أريحا والحصاد والتعبئة الفاخرة من تمور الورود.",
+        "صور وفيديوهات تمور الحاج — مزارع أريحا والحصاد والتعبئة الفاخرة.",
       eyebrow: "المعرض",
       title: "من البستان إلى الهدية",
       subtitle:
-        "صور وأفلام من مزارعنا ومنتجاتنا — لتعيش أجواء تمور الحج عن قرب.",
+        "صور وأفلام من مزارعنا ومنتجاتنا — لتعيش أجواء تمور الحاج عن قرب.",
       close: "إغلاق",
       filterAll: "الكل",
       filterPhotos: "صور",
@@ -255,7 +255,7 @@ export const translations = {
     contact: {
       seoTitle: "تواصل",
       seoDescription:
-        "تواصل مع تمور الورود / تمور الحج في فيلادلفيا — هاتف وبريد وساعات العمل والخريطة.",
+        "تواصل مع تمور الحاج في فيلادلفيا — هاتف وبريد وساعات العمل والخريطة.",
       eyebrow: "تواصل",
       title: "تواصل معنا",
       subtitle: "للجملة أو الضيافة أو التجزئة — يسعدنا الرد على استفساراتكم.",
@@ -272,7 +272,7 @@ export const translations = {
       fillAll: "يرجى تعبئة جميع الحقول.",
       openingMail: "جارٍ فتح تطبيق البريد…",
       findUs: "موقعنا",
-      mapTitle: "موقع تمور الحج / تمور الورود في فيلادلفيا",
+      mapTitle: "موقع تمور الحاج في فيلادلفيا",
     },
     footer: {
       blurb: "تمور فاخرة تُزرع في أريحا وتصل العالم بجودة أصيلة.",
@@ -282,9 +282,9 @@ export const translations = {
       tagline: "جودة تعانق التراث",
     },
     seo: {
-      homeTitle: "تمور الحج | تمور فاخرة من أريحا",
+      homeTitle: "تمور الحاج | تمور فاخرة من أريحا",
       homeDescription:
-        "تمور الحج من تمور الورود — تمور فلسطينية فاخرة من أريحا. جودة وتراث للمنزل والضيافة حول العالم.",
+        "تمور الحاج — تمور فلسطينية فاخرة من أريحا. جودة وتراث للمنزل والضيافة حول العالم.",
     },
   },
 };

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Seo from "../components/Seo";
 import { useLocale } from "../i18n/LocaleContext";
+import { absoluteUrl, company } from "../data/company";
 import { galleryImages, galleryItems, galleryVideos, videos } from "../data/media";
 
 const swipeConfidence = 9000;
@@ -31,6 +32,23 @@ const Gallery = () => {
     if (filter === "videos") return galleryVideos;
     return galleryItems;
   }, [filter]);
+
+  const galleryJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      name: t.gallery.title,
+      description: t.gallery.seoDescription,
+      url: absoluteUrl(isAr ? "/ar/gallery" : "/gallery"),
+      isPartOf: {
+        "@type": "WebSite",
+        name: company.brand,
+        url: company.siteUrl,
+      },
+      image: galleryImages.slice(0, 12).map((img) => absoluteUrl(img.src)),
+    }),
+    [t.gallery.title, t.gallery.seoDescription, isAr]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,7 +128,9 @@ const Gallery = () => {
         title={t.gallery.seoTitle}
         description={t.gallery.seoDescription}
         path="/gallery"
-        image={galleryImages[0]?.src}
+        image="/gallary/gallary1.jpeg"
+        imageAlt={t.gallery.title}
+        jsonLd={galleryJsonLd}
       />
 
       <section className="relative h-[38svh] min-h-[240px] overflow-hidden sm:h-[44svh] sm:min-h-[300px] md:h-[48svh]">

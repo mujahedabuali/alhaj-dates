@@ -1,3 +1,17 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/og-(cover.jpg|logo.png)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets/|gallary/|videos/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

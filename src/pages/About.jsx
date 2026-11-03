@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import Seo from "../components/Seo";
 import LocaleLink from "../components/LocaleLink";
+import BackgroundVideo from "../components/BackgroundVideo";
 import { useLocale } from "../i18n/LocaleContext";
+import { videos } from "../data/media";
 
 const About = () => {
   const { t, isAr } = useLocale();
@@ -23,19 +25,13 @@ const About = () => {
       />
 
       <section className="relative h-[58svh] min-h-[380px] overflow-hidden sm:h-[65svh] sm:min-h-[440px] md:h-[70svh]">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
+        <BackgroundVideo
+          src={videos.about}
+          mobileSrc={videos.aboutMobile}
           poster="/aboutImg.png"
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/videos/video2.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.4)_45%,rgba(0,0,0,0.72)_100%)]" />
-        <div className="relative z-10 flex h-full items-end">
+        />
+        <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.4)_45%,rgba(0,0,0,0.72)_100%)]" />
+        <div className="relative z-[2] flex h-full items-end">
           <div className="container-narrow w-full px-4 pb-10 sm:px-5 sm:pb-12 md:px-6 md:pb-14">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -135,9 +135,18 @@ a {
 
 .brand-lockup .brand-lockup-sub {
   margin: 0.08rem 0 0;
+  font-family: var(--font-arabic);
   font-size: 0.68rem;
+  font-weight: 500;
   color: var(--color-primary);
   white-space: nowrap;
+}
+
+/* Arabic snippets on English pages still use Tajawal */
+:lang(ar),
+[lang="ar"],
+.font-arabic {
+  font-family: var(--font-arabic);
 }
 
 @media (min-width: 640px) {

@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Seo from "../components/Seo";
+import BackgroundVideo from "../components/BackgroundVideo";
 import { useLocale } from "../i18n/LocaleContext";
 import { absoluteUrl, company } from "../data/company";
 import { galleryImages, galleryItems, galleryVideos, videos } from "../data/media";
+import { useMediaPerf } from "../hooks/useMediaPerf";
 
 const swipeConfidence = 9000;
 const swipePower = (offset, velocity) => Math.abs(offset) * velocity;
@@ -21,6 +23,7 @@ const PlayBadge = ({ label }) => (
 
 const Gallery = () => {
   const { t, isAr } = useLocale();
+  const { preferLite } = useMediaPerf();
   const [filter, setFilter] = useState("all");
   const [active, setActive] = useState(null);
   const [direction, setDirection] = useState(0);
@@ -134,18 +137,13 @@ const Gallery = () => {
       />
 
       <section className="relative h-[38svh] min-h-[240px] overflow-hidden sm:h-[44svh] sm:min-h-[300px] md:h-[48svh]">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
+        <BackgroundVideo
+          src={videos.farm}
+          mobileSrc={videos.farmMobile}
           poster={galleryVideos[0].poster}
-        >
-          <source src={videos.farm} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.25)_45%,rgba(0,0,0,0.72)_100%)]" />
-        <div className="relative z-10 flex h-full items-end">
+        />
+        <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.25)_45%,rgba(0,0,0,0.72)_100%)]" />
+        <div className="relative z-[2] flex h-full items-end">
           <div className="container-narrow w-full px-4 pb-8 sm:px-5 sm:pb-10 md:px-6">
             <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-primary-light uppercase">
               {t.gallery.eyebrow}
@@ -302,17 +300,21 @@ const Gallery = () => {
                     >
                       <video
                         ref={videoRef}
-                        key={current.src}
+                        key={`${current.id}-${preferLite ? "lite" : "full"}`}
                         className="max-h-[70vh] max-w-full bg-black object-contain"
                         controls
                         playsInline
+                        preload="metadata"
                         poster={current.poster}
                         autoPlay
-                      >
-                        {(current.mime || ["video/mp4"]).map((type) => (
-                          <source key={type} src={current.src} type={type} />
-                        ))}
-                      </video>
+                        src={
+                          preferLite
+                            ? current.src
+                            : current.srcFull && !current.srcFull.endsWith(".MOV")
+                              ? current.srcFull
+                              : current.src
+                        }
+                      />
                     </motion.div>
                   ) : (
                     <motion.img

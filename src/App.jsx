@@ -1,20 +1,25 @@
-import "./App.css";
-import Hero from "./components/Home/Hero";
-import About from "./components/Home/About";
-import FlowerImg from "./components/FlowerImg";
-import AboutAr from "./components/Home/AboutAr";
 import { useEffect } from "react";
+import Seo from "./components/Seo";
+import Hero from "./components/Home/Hero";
+import Story from "./components/Home/Story";
+import Highlights from "./components/Home/Highlights";
+import Cta from "./components/Home/Cta";
+import { useLocale } from "./i18n/LocaleContext";
 
 function App() {
+  const { t } = useLocale();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
+      <Seo title={t.seo.homeTitle} description={t.seo.homeDescription} path="/" />
       <Hero />
-      <About />
-      <FlowerImg />
-      <AboutAr />
+      <Story />
+      <Highlights />
+      <Cta />
     </>
   );
 }

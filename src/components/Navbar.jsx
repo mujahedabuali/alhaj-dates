@@ -1,95 +1,168 @@
-import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { navItems } from "../data/company";
+import { useLocale, stripLocale } from "../i18n/LocaleContext";
+import LocaleLink from "./LocaleLink";
 
 const Navbar = () => {
   const location = useLocation();
-  const [atTop, setAtTop] = useState(true);
+  const { t, switchLanguage, lang } = useLocale();
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const current = stripLocale(location.pathname);
+  const isHome = current === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setAtTop(window.scrollY === 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Contact", path: "/contact" },
-  ];
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const solid = scrolled || !isHome || open;
 
   return (
     <header
-      className={`${
-        atTop ? "absolute" : "sticky"
-      } top-0 left-0 w-full z-50 backdrop-blur-xs transition-all duration-500 ${
-        atTop
-          ? ""
-          : "bg-gradient-to-r from-[#A17D23] via-[#D3B159] to-[#F8F4E8] shadow-xl bg-opacity-90"
+      className={`fixed top-0 inset-inline-start-0 z-50 w-full transition-all duration-300 ${
+        solid
+          ? "bg-brand-deep text-cream shadow-[0_8px_30px_rgba(10,22,18,0.35)]"
+          : "bg-transparent text-white"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          <Link to="/" className="flex items-center group">
-            <motion.h1
-              className="text-2xl font-bold text-white transition-colors duration-500"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              Al-haj
-              <motion.span
-                className="text-[#D3B159] ml-1 group-hover:text-[#A17D23] transition-colors duration-500"
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                .
-              </motion.span>
-            </motion.h1>
-          </Link>
+      <a href="#main" className="skip-link">
+        {t.skip}
+      </a>
+      <div className="container-narrow flex h-[4.5rem] items-center justify-between gap-3 px-4 sm:px-5 md:h-[5.25rem] md:px-6">
+        <LocaleLink to="/" className="brand-lockup" aria-label={t.brand}>
+          <img src="/al-haj.png" alt="" />
+          <div className="brand-lockup-text">
+            <p className="brand-lockup-title">{t.brand}</p>
+            <p className="brand-lockup-sub">{t.brandArShort}</p>
+          </div>
+        </LocaleLink>
 
-          {/* Nav Links with enhanced animations */}
-          <nav className="flex items-center space-x-1 sm:space-x-4 md:space-x-6">
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={link.path}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+          {navItems.map((item) => {
+            const active = current === item.path;
+            return (
+              <LocaleLink
+                key={item.path}
+                to={item.path}
+                className={`relative px-3 py-2 text-sm font-medium tracking-wide transition-colors ${
+                  active
+                    ? "text-primary-light"
+                    : solid
+                      ? "text-cream/85 hover:text-primary-light"
+                      : "text-white/85 hover:text-white"
+                }`}
               >
-                <Link
-                  to={link.path}
-                  className={`relative px-3 py-2 text-sm md:text-base font-medium ${
-                    location.pathname === link.path
-                      ? "text-[#666666] font-semibold"
-                      : "text-[#666666] hover:text-[#666666]"
-                  } transition-colors duration-300 group`}
-                >
-                  {link.name}
-                  {location.pathname === link.path ? (
-                    <motion.span
-                      className="absolute left-0 bottom-0 w-full h-0.5 bg-white"
-                      layoutId="underline"
-                      transition={{
-                        type: "spring",
-                        bounce: 0.3,
-                        duration: 0.6,
-                      }}
-                    />
-                  ) : (
-                    <motion.span
-                      className="absolute left-0 bottom-0 w-0 h-0.5 bg-white group-hover:w-full"
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
-                </Link>
-              </motion.div>
-            ))}
-          </nav>
+                {t.nav[item.key]}
+                {active && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute inset-x-3 -bottom-0.5 h-px bg-primary-light"
+                  />
+                )}
+              </LocaleLink>
+            );
+          })}
+          <button
+            type="button"
+            onClick={switchLanguage}
+            className={`ms-2 px-3 py-2 text-sm font-semibold transition ${
+              solid ? "text-cream hover:text-primary-light" : "text-white hover:text-primary-light"
+            }`}
+            aria-label={t.langSwitchLabel}
+          >
+            {t.langSwitch}
+          </button>
+          <LocaleLink
+            to="/contact"
+            className={`ms-2 px-4 py-2 text-sm font-semibold transition ${
+              solid
+                ? "bg-primary text-cream hover:bg-primary-light hover:text-ink"
+                : "bg-primary-light text-ink hover:bg-cream"
+            }`}
+          >
+            {t.nav.inquire}
+          </LocaleLink>
+        </nav>
+
+        <div className="flex items-center gap-1 lg:hidden">
+          <button
+            type="button"
+            onClick={switchLanguage}
+            className="min-h-10 px-2.5 text-sm font-semibold"
+            aria-label={t.langSwitchLabel}
+          >
+            {lang === "en" ? "ع" : "EN"}
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? t.menuClose : t.menuOpen}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="sr-only">{open ? t.menuClose : t.menuOpen}</span>
+            <div className="flex w-5 flex-col gap-1.5">
+              <span
+                className={`h-0.5 w-full bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
+              />
+              <span className={`h-0.5 w-full bg-current transition ${open ? "opacity-0" : ""}`} />
+              <span
+                className={`h-0.5 w-full bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
+              />
+            </div>
+          </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="mobile-nav"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden border-t border-white/10 bg-brand-deep lg:hidden"
+            aria-label="Mobile"
+          >
+            <div className="flex flex-col gap-1 px-4 py-4 sm:px-5">
+              {navItems.map((item) => (
+                <LocaleLink
+                  key={item.path}
+                  to={item.path}
+                  className={`rounded-sm px-2 py-3 text-base ${
+                    current === item.path ? "bg-white/10 text-primary-light" : "text-cream/90"
+                  }`}
+                >
+                  {t.nav[item.key]}
+                </LocaleLink>
+              ))}
+              <LocaleLink
+                to="/contact"
+                className="mt-2 bg-primary px-3 py-3 text-center text-sm font-semibold text-cream"
+              >
+                {t.nav.inquire}
+              </LocaleLink>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

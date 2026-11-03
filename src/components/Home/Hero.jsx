@@ -1,95 +1,49 @@
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useLocale } from "../../i18n/LocaleContext";
+import LocaleLink from "../LocaleLink";
+import MediaSlider from "./MediaSlider";
 
 const Hero = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
+  const { t } = useLocale();
 
   return (
-    <div className="relative hero h-screen w-full overflow-hidden">
-      {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-      >
-        <source src="/video1.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <section
+      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden sm:min-h-[640px]"
+      aria-label="Hero"
+    >
+      <MediaSlider />
 
-      {/* Dark Overlay for better text visibility */}
-      <div className="absolute inset-0 bg-[#00000082] bg-opacity-30 z-0"></div>
+      <div className="absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.35)_40%,rgba(0,0,0,0.78)_100%)]" />
 
-      {/* Floating particles effect */}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-[#D3B159] opacity-60 z-0"
-          style={{
-            width: Math.random() * 10 + 5 + "px",
-            height: Math.random() * 10 + 5 + "px",
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, (Math.random() - 0.5) * 100],
-            x: [0, (Math.random() - 0.5) * 30],
-            opacity: [0.6, 0.9, 0.6],
-          }}
-          transition={{
-            duration: Math.random() * 10 + 10,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-      ))}
-
-      {/* Main logo with animation */}
-      <motion.div
-        ref={ref}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={
-          inView
-            ? {
-                opacity: 1,
-                scale: 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 10,
-                  delay: 0.3,
-                },
-              }
-            : {}
-        }
-      >
-        <motion.img
-          src="/al-haLogo.svg"
-          alt="Al-haj Logo"
-          className="max-w-md mx-auto"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        />
-
-        {/* Optional subtitle with fade-in effect */}
-        {inView && (
-          <motion.p
-            className="mt-8 text-white text-xl md:text-2xl font-light tracking-wider"
-            initial={{ opacity: 0, y: 20 }}
+      <div className="relative z-20 flex h-full items-end pb-14 sm:pb-16 md:items-center md:pb-0">
+        <div className="container-narrow w-full px-4 sm:px-5 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-2xl bg-black/35 p-5 backdrop-blur-[2px] sm:p-6 md:bg-transparent md:p-0 md:backdrop-blur-0"
           >
-            Premium Quality & Authentic Taste
-          </motion.p>
-        )}
-      </motion.div>
-    </div>
+            <p className="text-xs font-semibold tracking-[0.22em] text-primary-light uppercase sm:text-sm">
+              {t.hero.eyebrow}
+            </p>
+            <h1 className="mt-3 text-3xl leading-[1.12] font-semibold text-white drop-shadow-md sm:text-4xl md:mt-5 md:text-5xl lg:text-6xl">
+              {t.hero.title}
+            </h1>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/95 sm:mt-4 sm:text-base md:text-lg">
+              {t.hero.subtitle}
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+              <LocaleLink to="/gallery" className="btn-primary w-full sm:w-auto">
+                {t.hero.ctaGallery}
+              </LocaleLink>
+              <LocaleLink to="/contact" className="btn-ghost w-full bg-black/25 sm:w-auto">
+                {t.hero.ctaContact}
+              </LocaleLink>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   );
 };
 

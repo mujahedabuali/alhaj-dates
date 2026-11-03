@@ -1,214 +1,193 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
 import { FaPhone, FaMapMarkerAlt, FaClock, FaEnvelope } from "react-icons/fa";
-import { useEffect } from "react";
+import Seo from "../components/Seo";
+import { company } from "../data/company";
+import { useLocale } from "../i18n/LocaleContext";
 
 const Contact = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const { t, isAr } = useLocale();
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const contactItems = [
+  const items = [
     {
-      icon: <FaMapMarkerAlt className="text-3xl text-[#A17D23]" />,
-      title: "العنوان / Address",
+      icon: FaMapMarkerAlt,
+      title: t.contact.address,
+      content: isAr ? company.addressAr : company.address,
+    },
+    {
+      icon: FaPhone,
+      title: t.contact.phone,
       content: (
-        <>
-          <p className="mt-2">
-            1900 N 5th St, Philadelphia, PA 19122, United States
-          </p>
-        </>
+        <a href={company.phoneHref} className="hover:text-primary transition-colors">
+          {company.phone}
+        </a>
       ),
     },
     {
-      icon: <FaPhone className="text-3xl text-[#A17D23]" />,
-      title: "هاتف / Phone",
-      content: "+1 (215) 416-0563",
+      icon: FaClock,
+      title: t.contact.hours,
+      content: isAr ? company.hoursAr : company.hours,
     },
     {
-      icon: <FaClock className="text-3xl text-[#A17D23]" />,
-      title: "ساعات العمل / Working Hours",
+      icon: FaEnvelope,
+      title: t.contact.email,
       content: (
-        <>
-          <p dir="rtl">الأحد-الخميس: 8 صباحاً - 4 مساءً</p>
-          <p>Sunday-Thursday: 8AM - 4PM</p>
-        </>
+        <a href={company.emailHref} className="hover:text-primary transition-colors break-all">
+          {company.email}
+        </a>
       ),
-    },
-    {
-      icon: <FaEnvelope className="text-3xl text-[#A17D23]" />,
-      title: "البريد الإلكتروني / Email",
-      content: "info@alworooddates.com",
     },
   ];
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const name = String(form.get("name") || "").trim();
+    const email = String(form.get("email") || "").trim();
+    const message = String(form.get("message") || "").trim();
+
+    if (!name || !email || !message) {
+      setStatus(t.contact.fillAll);
+      return;
+    }
+
+    const subject = encodeURIComponent(`Al-Haj Dates / ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `${company.emailHref}?subject=${subject}&body=${body}`;
+    setStatus(t.contact.openingMail);
+  };
+
   return (
-    <div className="bg-[#FFF9F0] min-h-screen">
-      {/* Hero Section */}
-      <motion.section
-        className="max-w-7xl min-w-full mb-20 text-center contact-hero relative flex flex-col items-center justify-center"
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h1 className="text-4xl md:text-6xl font-bold text-[#A17D23] mb-4">
-          <span className="block">تواصل معنا</span>
-          <span className="text-2xl md:text-3xl font-light text-[#D3B159]">
-            Contact Us
-          </span>
-        </h1>
-        <p className="text-xl text-white max-w-3xl mx-auto">
-          نحن هنا للإجابة على جميع استفساراتك وتلقي ملاحظاتك / We're here to
-          answer your questions
-        </p>
-      </motion.section>
+    <div className="page-shell bg-cream-soft">
+      <Seo
+        title={t.contact.seoTitle}
+        description={t.contact.seoDescription}
+        path="/contact"
+      />
 
-      {/* Contact Information */}
-      <motion.section
-        className="max-w-7xl mx-auto mb-20 px-16"
-        ref={ref}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2 },
-          },
-        }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {contactItems.map((item, index) => (
-            <motion.div
-              key={index}
-              className="bg-white p-8 rounded-2xl shadow-lg"
-              variants={{
-                hidden: { y: 50, opacity: 0 },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { type: "spring", stiffness: 100 },
-                },
-              }}
-              whileHover={{ y: -10 }}
+      <section className="relative overflow-hidden pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20">
+        <img
+          src="/alhaj-background.png"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="relative z-10 container-narrow px-4 text-center sm:px-5 md:px-6">
+          <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-primary-light uppercase sm:mb-3">
+            {t.contact.eyebrow}
+          </p>
+          <h1 className="text-3xl font-semibold text-white sm:text-4xl md:text-5xl">
+            {t.contact.title}
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-white/85 sm:mt-4 sm:text-base">
+            {t.contact.subtitle}
+          </p>
+        </div>
+      </section>
+
+      <section className="container-narrow -mt-6 grid gap-3 px-4 sm:-mt-8 sm:gap-4 sm:px-5 md:grid-cols-2 md:px-6 lg:grid-cols-4">
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <article
+              key={item.title}
+              className="border border-primary-light/30 bg-white p-5 shadow-[0_10px_30px_rgba(161,125,35,0.08)] sm:p-6"
             >
-              <div className="mb-4 text-center">{item.icon}</div>
-              <h3 className="text-xl font-bold text-[#A17D23] mb-4 text-center border-b pb-2">
+              <Icon className="mb-3 text-lg text-primary" aria-hidden />
+              <h2 className="text-sm font-semibold tracking-wide text-ink uppercase">
                 {item.title}
-              </h3>
-              <div className="text-gray-700 text-center">{item.content}</div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
+              </h2>
+              <div className="mt-2 text-sm leading-relaxed text-muted">{item.content}</div>
+            </article>
+          );
+        })}
+      </section>
 
-      {/* Contact Form */}
-      <motion.section
-        className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="md:flex">
-          <div className="md:w-1/2 bg-[#A17D23] p-8 text-white text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              أرسل لنا رسالة / Send us a message
-            </h2>
-            <p className="mb-6">
-              سنكون سعداء بالرد على استفساراتك في أقرب وقت ممكن / We'll be happy
-              to reply as soon as possible
+      <section className="container-narrow mt-10 overflow-hidden border border-primary-light/30 bg-white sm:mt-14 md:mt-16 md:grid md:grid-cols-2">
+        <div className="surface-primary p-6 text-cream sm:p-8 md:p-10">
+          <h2 className="text-xl font-semibold sm:text-2xl">{t.contact.formTitle}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-cream/80">{t.contact.formHint}</p>
+          <div className="mt-6 space-y-3 text-sm text-cream/85 sm:mt-8">
+            <p className="flex items-start gap-3">
+              <FaMapMarkerAlt className="mt-1 shrink-0 text-primary-light" />
+              <span>{isAr ? company.addressAr : company.address}</span>
             </p>
-            <div className="space-y-4">
-              <div className="flex justify-center items-center">
-                <FaMapMarkerAlt className="mt-1 mr-3 flex-shrink-0" />
-                <div className="text-center">
-                  <p dir="rtl">
-                    1900 N 5th St, Philadelphia, PA 19122, United States
-                  </p>
-                  <p className="mt-2">
-                    1900 N 5th St, Philadelphia, PA 19122, United States
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center">
-                <FaPhone className="mr-3 flex-shrink-0 " />
-                <span className="">+1 (215) 416-0563</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:w-1/2 p-8">
-            <form>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="name">
-                  الاسم / Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D3B159]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="email">
-                  البريد الإلكتروني / Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D3B159]"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="message">
-                  الرسالة / Message
-                </label>
-                <textarea
-                  id="message"
-                  rows="4"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D3B159]"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-[#A17D23] hover:bg-[#D3B159] text-white font-bold py-3 px-4 rounded-lg transition duration-300"
-              >
-                إرسال الرسالة / Send Message
-              </button>
-            </form>
+            <p className="flex items-center gap-3">
+              <FaPhone className="shrink-0 text-primary-light" />
+              <a href={company.phoneHref}>{company.phone}</a>
+            </p>
           </div>
         </div>
-      </motion.section>
 
-      {/* Map Section */}
-      <motion.section
-        className="max-w-7xl mx-auto mt-20 rounded-2xl overflow-hidden shadow-lg"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="p-4 bg-[#A17D23] text-white">
-          <h3 className="text-xl font-bold text-center">
-            موقعنا على الخريطة / Our Location on Map
-          </h3>
+        <form className="p-6 sm:p-8 md:p-10" onSubmit={onSubmit} noValidate>
+          <div className="mb-4">
+            <label className="mb-2 block text-sm font-medium text-ink" htmlFor="name">
+              {t.contact.name}
+            </label>
+            <input
+              className="input-field"
+              type="text"
+              id="name"
+              name="name"
+              autoComplete="name"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="mb-2 block text-sm font-medium text-ink" htmlFor="email">
+              {t.contact.email}
+            </label>
+            <input
+              className="input-field"
+              type="email"
+              id="email"
+              name="email"
+              autoComplete="email"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className="mb-2 block text-sm font-medium text-ink" htmlFor="message">
+              {t.contact.message}
+            </label>
+            <textarea className="input-field" id="message" name="message" rows="5" required />
+          </div>
+          <button
+            type="submit"
+            className="btn-primary w-full bg-primary text-cream hover:bg-primary-light hover:text-ink"
+          >
+            {t.contact.send}
+          </button>
+          {status && (
+            <p className="mt-3 text-center text-sm text-muted" role="status">
+              {status}
+            </p>
+          )}
+        </form>
+      </section>
+
+      <section className="container-narrow mt-10 mb-14 overflow-hidden border border-primary-light/30 sm:mt-14 sm:mb-16 md:mt-16 md:mb-20">
+        <div className="bg-primary px-4 py-3">
+          <h2 className="text-center text-sm font-semibold tracking-wide text-cream uppercase">
+            {t.contact.findUs}
+          </h2>
         </div>
         <iframe
-          src="https://www.google.com/maps?q=1900+N+5th+St,+Philadelphia,+PA+19122,+United+States&output=embed"
+          src={company.mapEmbed}
           width="100%"
-          height="450"
+          height="360"
+          className="block sm:h-[420px]"
           style={{ border: 0 }}
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
-          title="Alworood Dates Location"
-        ></iframe>
-      </motion.section>
+          referrerPolicy="no-referrer-when-downgrade"
+          title={t.contact.mapTitle}
+        />
+      </section>
     </div>
   );
 };

@@ -1,76 +1,73 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { company, navItems } from "../data/company";
+import { useLocale } from "../i18n/LocaleContext";
+import LocaleLink from "./LocaleLink";
 
 const Footer = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: true,
-  });
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.6,
-      },
-    }),
-  };
+  const { t, isAr } = useLocale();
+  const year = new Date().getFullYear();
 
   return (
-    <motion.footer
-      className="border-t-4 border-[#D3B159] text-white py-8 px-6"
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      ref={ref}
-      variants={containerVariants}
-    >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* English Section */}
-        <motion.div className="text-left" custom={0} variants={itemVariants}>
-          <h3 className="text-[#A17D23] text-xl font-semibold mb-2">
-            Alworood Dates Company, Ltd
-          </h3>
-          <p className="text-sm text-[#D3B159]">
-            1943 N 6th St, Philadelphia, PA 19122, United States
-            <br />
-            Tel: +1 (215) 416-0563
+    <footer className="surface-chrome text-cream">
+      <div className="container-narrow grid gap-10 px-4 py-12 sm:px-5 md:grid-cols-2 md:gap-8 md:px-6 md:py-16 lg:grid-cols-[1.4fr_1fr_1fr]">
+        <div>
+          <div className="mb-4">
+            <LocaleLink to="/" className="brand-lockup" aria-label={t.brand}>
+              <img src="/al-haj.png" alt="" />
+              <div className="brand-lockup-text">
+                <p className="brand-lockup-title">{t.brand}</p>
+                <p className="brand-lockup-sub">{t.brandArShort}</p>
+              </div>
+            </LocaleLink>
+          </div>
+          <p className="max-w-sm text-sm leading-relaxed text-cream/80">
+            {isAr ? company.companyNameAr : company.companyName}. {t.footer.blurb}
           </p>
-        </motion.div>
+        </div>
 
-        {/* Arabic Section */}
-        <motion.div
-          className="text-right"
-          dir="rtl"
-          custom={1}
-          variants={itemVariants}
-        >
-          <h3 className="text-[#A17D23] text-xl font-semibold mb-2">
-            شركــة تمور الورود
-          </h3>
-          <p className="text-[#D3B159]">
-            ١٩٤٣ شارع السادس الشمالي، فيلادلفيا، بنسلفانيا ١٩١٢٢، الولايات المتحدة الأمريكية
-            <br />
-            هاتــف: +1 (215) 416-0563
-          </p>
-        </motion.div>
+        <div>
+          <h2 className="mb-4 text-sm font-semibold tracking-[0.16em] text-primary-light uppercase">
+            {t.footer.explore}
+          </h2>
+          <ul className="space-y-2 text-sm text-cream/85">
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <LocaleLink to={item.path} className="hover:text-white transition-colors">
+                  {t.nav[item.key]}
+                </LocaleLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="mb-4 text-sm font-semibold tracking-[0.16em] text-primary-light uppercase">
+            {t.footer.contact}
+          </h2>
+          <address className="space-y-2 text-sm leading-relaxed text-cream/85 not-italic">
+            <p>{isAr ? company.addressAr : company.address}</p>
+            <p dir="ltr" className="text-left">
+              <a href={company.phoneHref} className="hover:text-white transition-colors">
+                {company.phone}
+              </a>
+            </p>
+            <p>
+              <a href={company.emailHref} className="hover:text-white transition-colors break-all">
+                {company.email}
+              </a>
+            </p>
+          </address>
+        </div>
       </div>
-    </motion.footer>
+
+      <div className="border-t border-white/15">
+        <div className="container-narrow flex flex-col gap-2 px-4 py-5 text-xs text-cream/70 sm:px-5 md:flex-row md:items-center md:justify-between md:px-6">
+          <p>
+            © {year} {isAr ? company.companyNameAr : company.companyName}. {t.footer.rights}
+          </p>
+          <p>{t.footer.tagline}</p>
+        </div>
+      </div>
+    </footer>
   );
 };
 

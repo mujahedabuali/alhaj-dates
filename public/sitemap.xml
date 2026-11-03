@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://alhajdates.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar" />
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/ar</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar" />
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/about" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/about" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/ar/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/about" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/about" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/gallery</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/gallery" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/gallery" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/ar/gallery</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/gallery" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/gallery" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/contact" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/contact" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alhajdates.com/ar/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alhajdates.com/contact" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://alhajdates.com/ar/contact" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

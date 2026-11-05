@@ -7,10 +7,10 @@ export const company = {
   brandAr: "تمور الحاج",
   companyName: "Al-Haj Dates Company, Ltd",
   companyNameAr: "شركة تمور الحاج",
-  phone: "+1 (215) 416-0563",
+  phone: "+1 215-416-0563",
   phoneHref: "tel:+12154160563",
-  email: "info@alhaj-dates.com",
-  emailHref: "mailto:info@alhaj-dates.com",
+  email: "abualharth@me.com",
+  emailHref: "mailto:abualharth@me.com",
   address: "1900 N 5th St, Philadelphia, PA 19122, United States",
   addressAr:
     "١٩٠٠ شارع الخامس الشمالي، فيلادلفيا، بنسلفانيا ١٩١٢٢، الولايات المتحدة الأمريكية",

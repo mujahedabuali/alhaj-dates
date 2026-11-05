@@ -20,6 +20,26 @@ const galleryFiles = [
   "still-19.jpg",
   "still-20.jpg",
   "still-21.jpg",
+  "still-22.jpg",
+  "still-23.jpg",
+  "still-24.jpg",
+  "still-25.jpg",
+  "still-26.jpg",
+  "still-27.jpg",
+  "still-28.jpg",
+  "still-29.jpg",
+  "still-30.jpg",
+  "still-31.jpg",
+  "still-32.jpg",
+  "still-33.jpg",
+  "still-34.jpg",
+  "still-35.jpg",
+  "still-36.jpg",
+  "still-37.jpg",
+  "still-38.jpg",
+  "still-39.jpg",
+  "still-40.jpg",
+  "still-41.jpg",
   "gallary1.jpeg",
   "gallary2.jpeg",
   "gallary3.jpeg",
@@ -40,9 +60,11 @@ export const galleryImages = galleryFiles.map((file, index) => ({
 }));
 
 export const videos = {
-  /** Full quality source (gallery lightbox only — do not autoplay on mobile) */
-  heroFull: "/videos/IMG_5418.MOV",
-  /** Compressed hero for autoplay (~0.8MB) */
+  /** Original camera file (not used in browser — HEVC/MOV) */
+  heroOriginal: "/videos/IMG_5418.MOV",
+  /** Full hero for gallery lightbox (H.264 mp4) */
+  heroFull: "/videos/hero.mp4",
+  /** Compressed hero for home autoplay (~0.8MB) */
   hero: "/videos/hero-mobile.mp4",
   farm: "/videos/video1.mp4",
   farmMobile: "/videos/video1-mobile.mp4",
@@ -50,14 +72,14 @@ export const videos = {
   aboutMobile: "/videos/video2-mobile.mp4",
 };
 
-/** Videos shown inside the gallery page (with image posters). */
+/** Videos shown inside the gallery page (poster = mid-frame from that video). */
 export const galleryVideos = [
   {
     id: "v-hero",
     type: "video",
     src: videos.hero,
     srcFull: videos.heroFull,
-    poster: galleryPath("gallary1.jpeg"),
+    poster: "/videos/posters/hero.jpg",
     mime: ["video/mp4"],
   },
   {
@@ -65,7 +87,7 @@ export const galleryVideos = [
     type: "video",
     src: videos.farmMobile,
     srcFull: videos.farm,
-    poster: galleryPath("gallary3.jpeg"),
+    poster: "/videos/posters/farm.jpg",
     mime: ["video/mp4"],
   },
   {
@@ -73,7 +95,7 @@ export const galleryVideos = [
     type: "video",
     src: videos.aboutMobile,
     srcFull: videos.about,
-    poster: galleryPath("gallary5.jpeg"),
+    poster: "/videos/posters/about.jpg",
     mime: ["video/mp4"],
   },
 ];

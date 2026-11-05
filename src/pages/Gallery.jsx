@@ -25,16 +25,25 @@ const Gallery = () => {
   const { t, isAr } = useLocale();
   const { preferLite } = useMediaPerf();
   const [filter, setFilter] = useState("all");
-  const [active, setActive] = useState(null);
+  const [activeId, setActiveId] = useState(null);
   const [direction, setDirection] = useState(0);
+  const [navReady, setNavReady] = useState(false);
   const videoRef = useRef(null);
   const thumbsRef = useRef(null);
+  const openGuardRef = useRef(0);
 
   const items = useMemo(() => {
     if (filter === "photos") return galleryImages;
     if (filter === "videos") return galleryVideos;
     return galleryItems;
   }, [filter]);
+
+  const active = useMemo(
+    () => (activeId == null ? null : items.findIndex((item) => item.id === activeId)),
+    [activeId, items]
+  );
+
+  const current = active !== null && active >= 0 ? items[active] : null;
 
   const galleryJsonLd = useMemo(
     () => ({
@@ -58,31 +67,48 @@ const Gallery = () => {
   }, []);
 
   useEffect(() => {
-    setActive(null);
+    setActiveId(null);
+    setNavReady(false);
   }, [filter]);
 
-  const close = () => setActive(null);
+  const close = useCallback(() => {
+    setActiveId(null);
+    setNavReady(false);
+  }, []);
 
-  const showAt = useCallback((next, dir) => {
+  const openItem = useCallback((id, dir = 0, { fromClosed = false } = {}) => {
+    if (fromClosed) {
+      openGuardRef.current = Date.now();
+      setNavReady(false);
+    }
     setDirection(dir);
-    setActive(next);
+    setActiveId(id);
   }, []);
 
   const showPrev = useCallback(() => {
-    if (active === null || !items.length) return;
-    showAt((active - 1 + items.length) % items.length, -1);
-  }, [active, items.length, showAt]);
+    if (active === null || active < 0 || !items.length || !navReady) return;
+    const next = (active - 1 + items.length) % items.length;
+    openItem(items[next].id, -1);
+  }, [active, items, navReady, openItem]);
 
   const showNext = useCallback(() => {
-    if (active === null || !items.length) return;
-    showAt((active + 1) % items.length, 1);
-  }, [active, items.length, showAt]);
+    if (active === null || active < 0 || !items.length || !navReady) return;
+    const next = (active + 1) % items.length;
+    openItem(items[next].id, 1);
+  }, [active, items, navReady, openItem]);
 
   useEffect(() => {
-    if (active === null) return undefined;
+    if (activeId == null || navReady) return undefined;
+    const t = window.setTimeout(() => setNavReady(true), 450);
+    return () => window.clearTimeout(t);
+  }, [activeId, navReady]);
+
+  useEffect(() => {
+    if (activeId == null) return undefined;
 
     const onKey = (e) => {
       if (e.key === "Escape") close();
+      if (!navReady) return;
       if (e.key === "ArrowLeft") (isAr ? showNext : showPrev)();
       if (e.key === "ArrowRight") (isAr ? showPrev : showNext)();
     };
@@ -93,23 +119,30 @@ const Gallery = () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [active, isAr, showNext, showPrev]);
+  }, [activeId, isAr, navReady, showNext, showPrev, close]);
 
   useEffect(() => {
-    if (active === null || !thumbsRef.current) return;
+    if (active === null || active < 0 || !thumbsRef.current) return;
     const el = thumbsRef.current.querySelector(`[data-thumb="${active}"]`);
     el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [active]);
 
   useEffect(() => {
-    if (active === null) return;
-    const item = items[active];
-    if (item?.type !== "video") return;
+    if (!current || current.type !== "video") return;
     const v = videoRef.current;
     if (!v) return;
-    v.currentTime = 0;
-    v.play().catch(() => {});
-  }, [active, items]);
+    const playCurrent = () => {
+      try {
+        v.currentTime = 0;
+      } catch {
+        /* ignore seek errors before metadata */
+      }
+      v.play().catch(() => {});
+    };
+    if (v.readyState >= 2) playCurrent();
+    else v.addEventListener("loadeddata", playCurrent, { once: true });
+    return () => v.removeEventListener("loadeddata", playCurrent);
+  }, [current]);
 
   const filters = [
     { id: "all", label: t.gallery.filterAll, count: galleryItems.length },
@@ -123,7 +156,12 @@ const Gallery = () => {
     exit: (dir) => ({ x: dir < 0 ? 70 : -70, opacity: 0, scale: 0.97 }),
   };
 
-  const current = active !== null ? items[active] : null;
+  const videoSrc =
+    current?.type === "video"
+      ? preferLite
+        ? current.src || current.srcFull
+        : current.srcFull || current.src
+      : null;
 
   return (
     <div className="page-shell bg-cream-soft">
@@ -184,28 +222,23 @@ const Gallery = () => {
             {t.gallery.featured}
           </h2>
           <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
-            {galleryVideos.map((video) => {
-              const idx = galleryItems.findIndex((i) => i.id === video.id);
-              return (
-                <button
-                  key={video.id}
-                  type="button"
-                  className="group relative aspect-video overflow-hidden bg-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  onClick={() => {
-                    if (idx >= 0) showAt(idx, 0);
-                  }}
-                >
-                  <img
-                    src={video.poster}
-                    alt=""
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/30" />
-                  <PlayBadge label={t.gallery.play} />
-                </button>
-              );
-            })}
+            {galleryVideos.map((video) => (
+              <button
+                key={video.id}
+                type="button"
+                className="group relative aspect-video overflow-hidden bg-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                onClick={() => openItem(video.id, 0, { fromClosed: true })}
+              >
+                <img
+                  src={video.poster}
+                  alt=""
+                  className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/30" />
+                <PlayBadge label={t.gallery.play} />
+              </button>
+            ))}
           </div>
         </section>
       )}
@@ -215,7 +248,12 @@ const Gallery = () => {
         aria-label={t.gallery.eyebrow}
       >
         <p className="mb-4 text-sm text-muted">
-          {items.length} {filter === "videos" ? t.gallery.filterVideos : filter === "photos" ? t.gallery.filterPhotos : t.gallery.filterAll}
+          {items.length}{" "}
+          {filter === "videos"
+            ? t.gallery.filterVideos
+            : filter === "photos"
+              ? t.gallery.filterPhotos
+              : t.gallery.filterAll}
         </p>
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:gap-4">
@@ -224,14 +262,16 @@ const Gallery = () => {
               type="button"
               key={item.id}
               className={`group relative overflow-hidden bg-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                item.type === "video" ? "col-span-2 aspect-video sm:col-span-1 sm:aspect-square md:col-span-1" : "aspect-square"
+                item.type === "video"
+                  ? "col-span-2 aspect-video sm:col-span-1 sm:aspect-square md:col-span-1"
+                  : "aspect-square"
               }`}
-              onClick={() => showAt(index, 0)}
+              onClick={() => openItem(item.id, 0, { fromClosed: true })}
             >
               <img
                 src={item.type === "video" ? item.poster : item.src}
                 alt={`${t.brand} ${index + 1}`}
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
                 loading={index < 8 ? "eager" : "lazy"}
                 decoding="async"
               />
@@ -243,7 +283,7 @@ const Gallery = () => {
       </section>
 
       <AnimatePresence>
-        {active !== null && current && (
+        {activeId != null && current && active !== null && active >= 0 && (
           <motion.div
             className="fixed inset-0 z-[60] flex flex-col bg-black/95"
             initial={{ opacity: 0 }}
@@ -267,25 +307,41 @@ const Gallery = () => {
               </button>
             </div>
 
-            <div className="relative flex min-h-0 flex-1 items-center justify-center px-10 sm:px-16">
+            <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 sm:px-16">
               <button
                 type="button"
-                className="absolute inset-y-0 inset-inline-start-0 z-20 flex w-10 items-center justify-center text-cream/75 hover:text-white sm:w-14"
-                onClick={showPrev}
+                className={`absolute inset-y-0 inset-inline-start-0 z-20 flex w-12 items-center justify-center text-cream/75 hover:text-white sm:w-14 ${
+                  navReady ? "" : "pointer-events-none opacity-40"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showPrev();
+                }}
                 aria-label={t.gallery.prev}
+                disabled={!navReady}
               >
                 <span className="text-4xl leading-none">{isAr ? "›" : "‹"}</span>
               </button>
               <button
                 type="button"
-                className="absolute inset-y-0 inset-inline-end-0 z-20 flex w-10 items-center justify-center text-cream/75 hover:text-white sm:w-14"
-                onClick={showNext}
+                className={`absolute inset-y-0 inset-inline-end-0 z-20 flex w-12 items-center justify-center text-cream/75 hover:text-white sm:w-14 ${
+                  navReady ? "" : "pointer-events-none opacity-40"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showNext();
+                }}
                 aria-label={t.gallery.next}
+                disabled={!navReady}
               >
                 <span className="text-4xl leading-none">{isAr ? "‹" : "›"}</span>
               </button>
 
-              <div className="relative flex h-full max-h-[70vh] w-full max-w-5xl items-center justify-center overflow-hidden">
+              <div
+                className="relative z-10 flex h-full max-h-[70vh] w-full max-w-5xl items-center justify-center overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+              >
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   {current.type === "video" ? (
                     <motion.div
@@ -304,16 +360,10 @@ const Gallery = () => {
                         className="max-h-[70vh] max-w-full bg-black object-contain"
                         controls
                         playsInline
-                        preload="metadata"
+                        preload="auto"
                         poster={current.poster}
                         autoPlay
-                        src={
-                          preferLite
-                            ? current.src
-                            : current.srcFull && !current.srcFull.endsWith(".MOV")
-                              ? current.srcFull
-                              : current.src
-                        }
+                        src={videoSrc}
                       />
                     </motion.div>
                   ) : (
@@ -331,6 +381,7 @@ const Gallery = () => {
                       dragConstraints={{ left: 0, right: 0 }}
                       dragElastic={0.8}
                       onDragEnd={(_, { offset, velocity }) => {
+                        if (!navReady) return;
                         const swipe = swipePower(offset.x, velocity.x);
                         if (swipe < -swipeConfidence) showNext();
                         else if (swipe > swipeConfidence) showPrev();
@@ -352,15 +403,21 @@ const Gallery = () => {
                   key={`thumb-${item.id}`}
                   type="button"
                   data-thumb={index}
-                  onClick={() => showAt(index, index > active ? 1 : -1)}
+                  onClick={() => {
+                    if (item.id === activeId) return;
+                    if (!navReady) return;
+                    openItem(item.id, index > (active ?? 0) ? 1 : -1);
+                  }}
                   className={`relative h-14 w-20 shrink-0 overflow-hidden sm:h-16 sm:w-24 ${
-                    index === active ? "ring-2 ring-primary-light" : "opacity-55 hover:opacity-100"
+                    item.id === activeId
+                      ? "ring-2 ring-primary-light"
+                      : "opacity-55 hover:opacity-100"
                   }`}
                 >
                   <img
                     src={item.type === "video" ? item.poster : item.src}
                     alt=""
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-center"
                   />
                   {item.type === "video" && (
                     <span className="absolute inset-0 flex items-center justify-center bg-black/30">
